@@ -1,0 +1,6 @@
+[package]
+name = "workshop_01_basic"
+version = "0.1.0"
+authors = ["Logan Mzz <loganmzz@users.noreply.github.com>"]
+
+[dependencies]
