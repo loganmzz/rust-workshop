@@ -69,6 +69,22 @@ let string_literal: &'static str = "a static message";
 let string: String = String::from(string_literal);
 ```
 
+String can also be built with `format!(pattern, param1, param2, ...)` macro using `{}` (`Display`) or `{:?}` (`Debug`) as placeholders. Pattern is checked at compile time !
+
+```rust
+let parameter: &'static str = "a parameter";
+let message: String = format!("Display: {}\nDebug: {:?}", parameter, parameter);
+```
+
+In the same manner, `println!` and `eprintln!` are used to print string respectively on "stdout" and "stderr".
+
+Finally any type supporting `Display` has also a `to_string()` method.
+
+```rust
+let numToString: String = 42u64.to_string();
+let strToString: String = "some characters".to_string();
+```
+
 ### Unit
 
 Let's terminate tour of primitive types and literals with unit type. It equals `void` type/keyword into some other languages. It means "nothing". It is the default function return type and so can be omitted. It is both represented as type and value by `()`.

@@ -13,6 +13,10 @@ fn get_unit() -> usize {
     8
 }
 
+fn get_debug(num: i64, debug_string: &str) -> String {
+    String::from("")
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -45,5 +49,11 @@ mod test {
     fn add_with_8u8_1024u16_should_return_1032u32() {
         let result: u32 = add(8u8, 1024u16);
         assert_eq!(1032, result);
+    }
+
+    #[test]
+    fn get_debug_with_42i64_and_some_context_should_return_debug_string() {
+        let result: String = get_debug(42i64, "some context");
+        assert_eq!(String::from("\"some context\" debug: 42"), result);
     }
 }
