@@ -20,6 +20,31 @@ mod tuple_point_should {
         let point = TuplePoint(16, 32);
         assert_eq!(32i64, point.y());
     }
+
+    #[test]
+    fn support_debug() {
+        assert_eq!(String::from("TuplePoint(64, 128)"), format!("{:?}", TuplePoint(64, 128)))
+    }
+
+    #[test]
+    fn consider_equal_256_512_against_256_512() {
+        assert_eq!(TuplePoint(256, 512), TuplePoint(256, 512));
+    }
+
+    #[test]
+    fn consider_not_equal_256_512_against_512_256() {
+        assert_ne!(TuplePoint(256, 512), TuplePoint(512, 256));
+    }
+
+    #[test]
+    fn consider_not_equal_1024_2048_against_1024_4096() {
+        assert_ne!(TuplePoint(1024, 2048), TuplePoint(1024, 4096));
+    }
+
+    #[test]
+    fn consider_not_equal_1024_2048_against_4096_2048() {
+        assert_ne!(TuplePoint(1024, 2048), TuplePoint(1024, 4096));
+    }
 }
 
 #[cfg(test)]
@@ -58,5 +83,11 @@ mod named_point_should {
     fn have_access_to_second_element_through_y_method() {
         let point = TuplePoint(16, 32);
         assert_eq!(32i64, point.y());
+    }
+
+    #[test]
+    fn support_debug() {
+        let point = NamedPoint { x: 64, y: 128, name: String::from("debug") };
+        assert_eq!(String::from("NamedPoint { x: 64, y: 128, name: \"debug\" }"), format!("{:?}", point));
     }
 }

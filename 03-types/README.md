@@ -86,3 +86,20 @@ let clike = CLike::new(242860, "...");
 ```
 
 _Note: Here a new notation has been introduced. When initializing a "named" struct and a variable has same name as a field, `Type { field_name: field_name }` can be replaced by `Type { field_name }`._
+
+## Derivation
+
+`Debug` support can be automatically added to types through _derivable trait_ feature.
+
+```rust
+#[derive(Debug)]
+struct CLike { /* ... */ }
+
+println!("Debug: {:?}", CLike { /* ... */ });
+```
+
+In the same manner,
+
+* adds equality comparison with both `Eq` and `PartialEq`
+* adds ordering comparison with both `Ord` and `PartialOrd`
+* adds `default()` method with `Default`
