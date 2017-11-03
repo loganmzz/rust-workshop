@@ -1,0 +1,6 @@
+[package]
+name = "workshop_07_pattern_matching"
+version = "0.1.0"
+authors = ["Logan Mzz <loganmzz@users.noreply.github.com>"]
+
+[dependencies]
