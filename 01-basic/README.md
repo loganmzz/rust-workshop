@@ -110,3 +110,22 @@ fn mul(left: i64, right: i64) -> i64 {
     return left * right;
 }
 ```
+
+## Standard library
+
+FInally, API documentation is available at [https://doc.rust-lang.org/std/](https://doc.rust-lang.org/std/). Rust is shipped with other crates (Rust packaging) but only `std` matters as other are included by it.
+
+First thing to notice is the search bar ; it is a good entry when looking for something or even to quickly jump into it. In order to use it efficiently, an attention must be given to colors :
+
+* blue for module ([exemple](https://doc.rust-lang.org/stable/std/usize/))
+* orange for struct ([exemple](https://doc.rust-lang.org/stable/std/string/struct.String.html))
+* darker green for enum ([exemple](https://doc.rust-lang.org/stable/std/result/enum.Result.html))
+* purple for trait ([exemple](https://doc.rust-lang.org/stable/std/marker/trait.Copy.html))
+* brown for function and method ([exemple](https://doc.rust-lang.org/stable/std/result/enum.Result.html#method.is_ok))
+* lighter green for macro ([exemple](https://doc.rust-lang.org/stable/std/macro.println.html))
+* grayed blue for constant ([exemple](https://doc.rust-lang.org/stable/std/usize/constant.MAX.html))
+* cyan for primitive ([exemple](https://doc.rust-lang.org/stable/std/primitive.usize.html))
+
+_Note: looking at link url will also give information._
+
+All crates automatically import [`std::prelude`](https://doc.rust-lang.org/std/prelude/) module (i.e. namespace).
