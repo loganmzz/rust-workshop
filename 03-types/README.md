@@ -20,7 +20,7 @@ The second one is called _tuple struct_. It is a comma-separated list of types, 
 ```rust
 struct Tuple(i32, String);
 
-let tuple = Tuple(-42, String:from("THE response"));
+let tuple = Tuple(-42, String::from("THE response"));
 
 let key: i32 = tuple.0;
 ```
