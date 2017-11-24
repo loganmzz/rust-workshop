@@ -81,7 +81,7 @@ mod named_point_should {
 
     #[test]
     fn have_access_to_second_element_through_y_method() {
-        let point = TuplePoint(16, 32);
+        let point = NamedPoint { x: 16, y: 32, name: String::from("get_y") };
         assert_eq!(32i64, point.y());
     }
 
