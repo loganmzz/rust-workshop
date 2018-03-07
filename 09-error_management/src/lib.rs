@@ -1,98 +1,200 @@
-#![allow(dead_code)]
-
-enum InputError {
-    Invalid,
-}
+//! 09 Error management
+//! -------------------
+//!
+//! Welcome to ninth step of this Rust workshop.
+//!
+//! This step focuses on error handling.
+//!
+//! ## May success or fail
+//!
+//! [Result](https://doc.rust-lang.org/stable/std/result/enum.Result.html) enum is used in Rust to indicate that a function may returns a successful value or an error.
+//!
+//! ```rust
+//! # enum DivisionError { Zero, NotInteger }
+//! fn i64_divide(dividend: i64, divisor: i64) -> Result<i64, DivisionError> {
+//!     if divisor == 0 {
+//!         Err(DivisionError::Zero)
+//!     } else {
+//!         let quotient = dividend / divisor;
+//!         if dividend != quotient * divisor {
+//!             Err(DivisionError::NotInteger)
+//!         } else {
+//!             Ok(quotient)
+//!         }
+//!     }
+//! }
+//! ```
+//!
+//! Interesting things is that `Result` has very nice functional API:
+//!
+//! ```rust
+//! fn with(val: Result<i32, &'static str>) -> Result<String, &'static str> {
+//!     val.map(|ok| ok.to_string())
+//! }
+//! with(Ok(2)); // Ok("2")
+//! with(Err("error")); // Err("error")
+//! ```
+//!
+//! ```rust
+//! fn with(val: Result<i32, &'static str>) -> Result<i32, String> {
+//!     val.map_err(|err| err.to_uppercase())
+//! }
+//! with(Ok(2)); // Ok(2)
+//! with(Err("error")); // Err("ERROR")
+//! ```
+//!
+//! ```rust
+//! let val1: Result<i32, &'static str> = Ok(2).and(Ok(4)); // Ok(4)
+//! let val2: Result<i32, &'static str> = Ok(2).and(Err("error")); // Err("error")
+//! ```
+//!
+//! ```rust
+//! fn err(msg: &'static str) -> Result<i32, &'static str> { Err(msg) }
+//! let val1: Result<i32, &'static str> = err("error").and(Ok(4)); // Err("error")
+//! let val2: Result<i32, &'static str> = err("fatal").and(Err("useless")); // Err("fatal")
+//! ```
+//!
+//! ## Forwarding error
+//!
+//! When chaining call, checking and returning back error may be quite annoying:
+//!
+//! ```rust
+//! # struct Foo;
+//! # struct Bar;
+//! # struct IoError;
+//! # struct FooBar { foo: Foo, bar: Bar }
+//! fn parse_foo(input: &str) -> Result<Foo, IoError> {
+//!     /* ... */
+//! # Ok(Foo)
+//! }
+//! fn parse_bar(input: &str) -> Result<Bar, IoError> {
+//!     /* ... */
+//! # Ok(Bar)
+//! }
+//!
+//! fn read(input: &str) -> Result<FooBar, IoError> {
+//!     let foo = match parse_foo(input) {
+//!         Ok(foo) => foo,
+//!         Err(io_error) => return Err(io_error)
+//!     };
+//!
+//!     let bar = match parse_bar(input) {
+//!         Ok(bar) => bar,
+//!         Err(io_error) => return Err(io_error)
+//!     };
+//!
+//!     Ok(FooBar { foo, bar })
+//! }
+//! ```
+//!
+//! `?` operator can be used to simplify such pattern:
+//!
+//! ```rust
+//! # struct FooBar { foo: i32, bar: i32 }
+//! # struct IoError;
+//! # fn parse_foo(input: &str) -> Result<i32, IoError> { Ok(0) }
+//! # fn parse_bar(input: &str) -> Result<i32, IoError> { Ok(0) }
+//! #
+//! fn read(input: &str) -> Result<FooBar, IoError> {
+//!     let foo = parse_foo(input)?;
+//!
+//!     let bar = parse_bar(input)?;
+//!
+//!     Ok(FooBar { foo, bar })
+//! }
+//! ```
+//!
+//! Finally, Error can also be converted if `From` trait is implement for function error type:
+//!
+//! ```rust
+//! # use std::io;
+//! # mod foo { pub struct Error; }
+//! # struct Foo;
+//! # struct Bar;
+//! enum MyError {
+//!     IoError(io::Error),
+//!     FooError(foo::Error),
+//! }
+//!
+//! impl From<io::Error> for MyError {
+//!     fn from(e: io::Error) -> MyError {
+//!         MyError::IoError(e)
+//!     }
+//! }
+//!
+//! impl From<foo::Error> for MyError {
+//!     fn from(e: foo::Error) -> MyError {
+//!         MyError::FooError(e)
+//!     }
+//! }
+//!
+//! fn does_io() -> Result<Foo, io::Error> {
+//! # Ok(Foo)
+//! }
+//! fn does_foo() -> Result<(), foo::Error> {
+//! # Ok(())
+//! }
+//! fn does() -> Result<Bar, MyError> {
+//!     let foo = does_io()?;
+//!     does_foo()?;
+//!
+//!     Ok(Bar)
+//! }
+//! ```
+//!
+//! ## Optional values
+//!
+//! `null` value is called "the billion dollar mistake". So, Rust has no `null` but a missing value can still be expressed with `std::option::Option` enum.
+//!
+//! ```rust
+//! # enum FooError { NotFound }
+//! # struct Bar;
+//! # struct Foo { bar: Bar }
+//! # fn search_bar() -> Option<Bar> { Some(Bar) }
+//! fn make_optional(with_value: bool) -> Option<String> {
+//!     if with_value {
+//!         Some(String::from("value"))
+//!     } else {
+//!         None
+//!     }
+//! }
+//!
+//! Some(String::from("foo")).unwrap_or(String::from("bar")); // "bar"
+//! None.unwrap_or_else(|| String::from("default")); // "default"
+//!
+//! // Return error if value is missing
+//! fn may_fail() -> Result<Foo, FooError> {
+//!     let bar = search_bar().ok_or(FooError::NotFound)?;
+//!     Ok(Foo { bar })
+//! }
+//! ```
+//!
+//! ## Panic
+//!
+//! Rust has capability similar to `Exception` in other languages through `panic!` macro. It currently stops running thread and if it's `main`, program is stopped.
+//!
+//! ```should_panic
+//! fn stop_thread(code: u64) {
+//!     panic!("Abort thread (error code: {})", code);
+//! }
+//!
+//! let optional: Option<i32> = None;
+//! optional.expect("No value");
+//! ```
+//!
+//! ```should_panic
+//! let must_success: Result<i32, &'static str> = Err("but it fails !");
+//! must_success.expect("it should have worked");
+//! // panic: "it should have worked: but it fails !"
+//! ```
+//!
+//! ```should_panic
+//! let must_fail: Result<&'static str, &'static str> = Ok("but it was a surprising success !");
+//! must_fail.expect_err("it must not work");
+//! // panic: "it must not work: but it was a surprising success !"
+//! ```
+//!
+//! `panic` is generally advised when invariants are broken, state is invalid, caller is not expected to programmatically handle error (caller bug), ...
 
 #[cfg(test)]
-mod double_result_should {
-    use super::*;
-
-    #[test]
-    fn return_err_zero_when_ok_0() {
-        assert_eq!(Err(DoubleError::Zero), double_result(Ok(0)));
-    }
-    
-    #[test]
-    fn return_ok_2_when_ok_1() {
-        assert_eq!(Ok(2), double_result(Ok(1)));
-    }
-    
-    #[test]
-    fn return_err_invalidinput_when_err() {
-        assert_eq!(Err(DoubleError::InvalidInput), double_result(Err(InputError::Invalid)));
-    }
-}
-
-#[cfg(test)]
-mod checked_division_should {
-    use super::*;
-
-    #[test]
-    fn return_some_2_when_4_and_2() {
-        assert_eq!(Some(2), checked_division(4, 2));
-    }
-
-    #[test]
-    fn return_none_when_divising_by_0() {
-        assert_eq!(None, checked_division(42, 0));
-    }
-}
-
-#[cfg(test)]
-mod open_box_with_should {
-    use super::*;
-
-    #[test]
-    fn return_kind_message_when_some_value() {
-        assert_eq!("Oh ! I like banana !", &open_box_with(Some("banana")));
-    }
-
-    #[test]
-    fn return_disappointed_message_when_none() {
-        assert_eq!("Oh... I'm so sad...", &open_box_with(None));
-    }
-}
-
-#[cfg(test)]
-mod monkey_should {
-    use super::*;
-
-    #[test]
-    fn say_it_prefers_beer_when_giving_peanut_food() {
-        assert_eq!("peanut is not so bad, but I prefer to drink beer", &Monkey.give(Some(Present::Food(String::from("peanut")))));
-    }
-
-    #[test]
-    fn say_it_prefers_beer_when_giving_orange_juice() {
-        assert_eq!("orange juice doesn't make me reach Balmer effect. Give me a beer", &Monkey.give(Some(Present::Drink(String::from("orange juice")))));
-    }
-
-    #[test]
-    fn say_it_prefers_two_beer_when_giving_a_beer() {
-        assert_eq!("Only one beer ? Give me another one", &Monkey.give(Some(Present::Beer)));
-    }
-
-    #[test]
-    fn ask_for_a_beer_when_giving_none() {
-        assert_eq!("Can I have a beer, please ?", &Monkey.give(None));
-    }
-
-}
-
-
-#[cfg(test)]
-mod division_should {
-    use super::*;
-
-    #[test]
-    fn return_2_when_4_and_2() {
-        assert_eq!(2, division(4, 2));
-    }
-
-    #[test]
-    #[should_panic]
-    fn panic_when_divising_by_0() {
-        division(42, 0);
-    }
-}
+mod tests;

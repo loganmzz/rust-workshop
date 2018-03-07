@@ -1,28 +1,46 @@
-#![allow(dead_code)]
-
-///
-/// _Note: May not work in all cases but must work if values are in same scope._
-/// 
-fn longest(first: &str, second: &str) -> &str {
-
-}
+//! 05 Lifetime
+//! -----------
+//!
+//! Welcome to fifth step of this Rust workshop.
+//!
+//! This step focuses on how Rust follows references.
+//!
+//! ## Syntax
+//!
+//! Lifetime shares their syntax with generics (see later) but prefixing variable by a quote (`'`). And can be applied to any declaration (function, struct, ...).
+//!
+//! ```rust
+//! #[derive(Debug)]
+//! struct Foo<'a> { bar: &'a str, }
+//!
+//! fn display<'b>(foo: &Foo<'b>) {
+//!     println!("{:?}", foo);
+//! }
+//!
+//! let message = "foo";
+//! let foo = Foo { bar: message };
+//! display(&foo);
+//! ```
+//!
+//! _Note: inference mechanism still applies. So it is not always mandatory to specify lifetime at usage._
+//!
+//! ## Elision
+//!
+//! Each time there is a reference, there is a lifetime. However, when obvious Rust compiler adds it automatically. Basically, if all parameters have a unique lifetime or there's a self reference parameter, then Rust applies this lifetime to all output references. Otherwise, compilation fails.
+//!
+//! ```rust,ignore
+//! fn debug(s: &str);
+//! fn debug<'a>(s: &'a str);
+//!
+//! fn split(s: &str) -> (&str, &str);
+//! fn split<'a>(s: &'a str) -> (&'a str, &'a str);
+//!
+//! fn create<'a>(s: &'a str) -> Foo;
+//! fn create<'a>(s: &'a str) -> Foo<'a>;
+//!
+//! fn merge(&self, &str) -> &str;
+//! fn merge<'a, 'b>(&'a self, &'b str) -> &'a str;
+//! ```
 
 #[cfg(test)]
-mod longest_should {
-    use super::*;
-
-    #[test]
-    fn return_aa_when_a_and_aa() {
-        let a = String::from("a");
-        let aa = String::from("aa");
-        assert_eq!("aa", longest(&a, &aa));
-    }
-
-    #[test]
-    fn return_bb_when_bb_and_b() {
-        let b = String::from("b");
-        let bb = String::from("bb");
-        assert_eq!("bb", longest(&bb, &b));
-    }
-}
-
+mod tests;

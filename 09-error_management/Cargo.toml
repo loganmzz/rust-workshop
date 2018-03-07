@@ -1,5 +1,5 @@
 [package]
-name = "workshop_09_error_management"
+name = "09_error_management"
 version = "0.1.0"
 authors = ["Logan Mzz <loganmzz@users.noreply.github.com>"]
 

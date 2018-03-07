@@ -1,93 +1,116 @@
-#![allow(dead_code)]
+//! 03 Types
+//! ---------
+//!
+//! Welcome to third step of this Rust workshop.
+//!
+//! This step focuses on defining new types in Rust.
+//!
+//! ## Structure
+//!
+//! The basic structural type in Rust is called a `struct`. Similar to C-struct, it ony contains data and has three forms.
+//!
+//! The first one is called _unit struct_ and has no content (it generally serves as marker):
+//!
+//! ```rust
+//! struct Empty;
+//! ```
+//!
+//! The second one is called _tuple struct_. It is a comma-separated list of types, each field is accessible through its position.
+//!
+//! ```rust
+//! struct Tuple(i32, String);
+//!
+//! let tuple = Tuple(-42, String::from("THE response"));
+//!
+//! let key: i32 = tuple.0;
+//! ```
+//!
+//! And the final one, just called _struct_ with named fields:
+//!
+//! ```rust
+//! struct CLike {
+//!     key: i32,
+//!     name: String,
+//! }
+//!
+//! let clike = CLike { key: -42, name: String::from("THE response") };
+//!
+//! let key: i32 = clike.key;
+//! ```
+//!
+//! In all cases, `struct` isn't a class-like construction and doesn't support inheritance !
+//!
+//! ## Enumeration
+//!
+//! Rust hasn't inheritance but in somes cases, finite set of subtypes is required. In such cases, Rust has `enum` where each entry is a `struct`-like. Entries can't be used directly as type and are only used for (de)construction.
+//!
+//! ```rust
+//! enum Person {
+//!     Anonymous,
+//!     Natural { last_name: String, first_name: String },
+//!     Company { name: String, owners: Vec<Person> },
+//!     Association(String),
+//! }
+//!
+//! let no_one: Person = Person::Anonymous;
+//! let someone: Person = Person::Natural {
+//!     last_name: String::from("DOE"),
+//!     first_name: String::from("John"),
+//! };
+//! let famous_company: Person = Person::Company {
+//!     name: String::from("$$$"),
+//!     owners: vec![no_one, someone],
+//! };
+//! let another_organisation: Person = Person::Association(String::from("❤ organisation ❤"));
+//! ```
+//!
+//! ## Implementation
+//!
+//! While Rust isn't really an object-oriented language, method-like call is still possible through `impl` block. It applies on a type, then functions are declared using `self` with no type as first parameter.
+//!
+//! ```rust
+//! # struct CLike { key: i32, name: String }
+//! impl CLike {
+//!     fn get_key(self) -> i32 {
+//!         self.key
+//!     }
+//! }
+//!
+//! let clike = CLike { key: 242860, name: String::from("...") };
+//! let key = clike.get_key();
+//! ```
+//!
+//! Static-like function are also posible and are called `associated function`. They are commonly used as constructor.
+//!
+//! ```rust
+//! # struct CLike { key: i32, name: String }
+//! impl CLike {
+//!     fn new(key: i32, name: &str) -> CLike {
+//!         CLike { key, name: String::from(name) }
+//!     }
+//! }
+//!
+//! let clike = CLike::new(242860, "...");
+//! ```
+//!
+//! _Note: Here a new notation has been introduced. When initializing a "named" struct and a variable has same name as a field, `Type { field_name: field_name }` can be replaced by `Type { field_name }`._
+//!
+//! ## Derivation
+//!
+//! `Debug` support can be automatically added to types through _derivable trait_ feature.
+//!
+//! ```rust
+//! #[derive(Debug)]
+//! struct CLike { /* ... */ }
+//!
+//! println!("Debug: {:?}", CLike { /* ... */ });
+//! ```
+//!
+//! In the same manner,
+//!
+//! * adds equality comparison with both `Eq` and `PartialEq`
+//! * adds ordering comparison with both `Ord` and `PartialOrd`
+//! * adds `default()` method with `Default`
 
 #[cfg(test)]
-mod tuple_point_should {
-    use super::*;
-    
-    #[test]
-    fn be_created_as_tuple_of_i64() {
-        let point = TuplePoint(1i64, 2i64);
-    }
-
-    #[test]
-    fn have_access_to_first_element_through_x_method() {
-        let point = TuplePoint(4, 8);
-        assert_eq!(4i64, point.x());
-    }
-
-    #[test]
-    fn have_access_to_second_element_through_y_method() {
-        let point = TuplePoint(16, 32);
-        assert_eq!(32i64, point.y());
-    }
-
-    #[test]
-    fn support_debug() {
-        assert_eq!(String::from("TuplePoint(64, 128)"), format!("{:?}", TuplePoint(64, 128)))
-    }
-
-    #[test]
-    fn consider_equal_256_512_against_256_512() {
-        assert_eq!(TuplePoint(256, 512), TuplePoint(256, 512));
-    }
-
-    #[test]
-    fn consider_not_equal_256_512_against_512_256() {
-        assert_ne!(TuplePoint(256, 512), TuplePoint(512, 256));
-    }
-
-    #[test]
-    fn consider_not_equal_1024_2048_against_1024_4096() {
-        assert_ne!(TuplePoint(1024, 2048), TuplePoint(1024, 4096));
-    }
-
-    #[test]
-    fn consider_not_equal_1024_2048_against_4096_2048() {
-        assert_ne!(TuplePoint(1024, 2048), TuplePoint(1024, 4096));
-    }
-}
-
-#[cfg(test)]
-mod named_point_should {
-    use super::*;
-    
-    #[test]
-    fn be_created_as_struct() {
-        let point = NamedPoint { x: 1i64, y: 2i64, name: String::from("standard init") };
-    }
-
-    #[test]
-    fn be_created_through_constructor() {
-        let point = NamedPoint::new(4, 8, "constructor init");
-        assert_eq!(4, point.x);
-        assert_eq!(8, point.y);
-        assert_eq!(String::from("constructor init"), point.name);
-    }
-
-    #[test]
-    fn be_created_through_copy_constructor() {
-        let base = NamedPoint { x: 16, y: 32, name: String::from("base") };
-        let point = NamedPoint::copy(base, "new name");
-        assert_eq!(16, point.x);
-        assert_eq!(32, point.y);
-        assert_eq!(String::from("new name"), point.name);
-    }
-
-    #[test]
-    fn have_access_to_x_though_getter() {
-        let point = NamedPoint { x: 64, y: 128, name: String::from("get_x") };
-        assert_eq!(64, point.x());
-    }
-
-    #[test]
-    fn have_access_to_second_element_through_y_method() {
-        let point = NamedPoint { x: 16, y: 32, name: String::from("get_y") };
-        assert_eq!(32i64, point.y());
-    }
-
-    #[test]
-    fn support_debug() {
-        let point = NamedPoint { x: 64, y: 128, name: String::from("debug") };
-        assert_eq!(String::from("NamedPoint { x: 64, y: 128, name: \"debug\" }"), format!("{:?}", point));
-    }
-}
+mod tests;

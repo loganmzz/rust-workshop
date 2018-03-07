@@ -1,6 +1,22 @@
 [package]
-name = "workshop"
+name = "00_workshop"
+
 version = "0.1.0"
 authors = ["Logan Mzz <loganmzz@users.noreply.github.com>"]
+
+[workspace]
+
+members = [
+  "01-basic",
+  "02-control",
+  "03-types",
+  "04-ownership",
+  "05-lifetime",
+  "06-trait",
+  "07-pattern_matching",
+  "08-generics",
+  "09-error_management",
+  "10-collections",
+]
 
 [dependencies]

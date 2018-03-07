@@ -1,5 +1,5 @@
 [package]
-name = "workshop_04_ownership"
+name = "04_ownership"
 version = "0.1.0"
 authors = ["Logan Mzz <loganmzz@users.noreply.github.com>"]
 

@@ -1,7 +1,9 @@
 Welcome to Rust workshop
 ------------------------
 
-It consists into a list of "crates" (packaging name in Rust). Your goal is to make test passes using `cargo test`. You start with `01-basic`, and when you're done, go to `02-...` and continue this way until the end ! Each subdirectories may contain a `README` with few explanations/instructions, so read it !
+It consists into a list of "crates" (packaging name in Rust). Your goal is to make test passes using `cargo test`. You start with `01-basic`, and when you're done, go to `02-...` and continue this way until the end ! All code to touch are in `/src/tests.rs` files.
+
+Each crate is documented with few explanations/instructions, so generate all documentation with `cargo doc --all` and then open it with `cargo doc --open` !
 
 Before proceeding, you need to install a working environment !
 

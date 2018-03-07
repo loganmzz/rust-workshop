@@ -1,5 +1,5 @@
 [package]
-name = "workshop_08_generics"
+name = "08_generics"
 version = "0.1.0"
 authors = ["Logan Mzz <loganmzz@users.noreply.github.com>"]
 

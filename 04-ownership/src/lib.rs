@@ -1,73 +1,153 @@
-#![allow(dead_code)]
+//! 04 Ownership
+//! ------------
+//!
+//! Welcome to fourth step of this Rust workshop.
+//!
+//! This step focuses on how Rust handles (de)allocation and what makes Rust very special: ownership.
+//!
+//! ## Move value
+//!
+//! All methods that have be defined until now _consume_ `self`. It means variable can't be reused after call.
+//!
+//! ```rust
+//! struct MyType { /* ... */ }
+//! impl MyType {
+//!     fn method(self) { /* ... */ }
+//! }
+//!
+//! let variable = MyType { /* ... */ };
+//! variable.method(); // Ok
+//!
+//! // Compilation error
+//! // variable.method();
+//! ```
+//!
+//! By default, Rust _moves_ value. It means when a value is assigned to a variable (or a parameter, a field, ...), the variable owns the value until next move or end of block. When nothing owns a value, Rust just deallocates it. And all these things are checked at compile time with no runtime cost !
+//!
+//!
+//! One solution could be to return `self` like in fluent API but a better one is following.
+//!
+//! ```rust
+//! # struct MyType;
+//! impl MyType {
+//!     fn method(self) -> Self {
+//!         self
+//!     }
+//! }
+//!
+//! let variable = MyType { /* ... */ };
+//! let variable = variable.method();
+//! variable.method();
+//! ```
+//!
+//! ## Copy value
+//!
+//! If "by default" has been specified, it means Rust can do something different. The other case is _copying_ value. For example, primitive types (`i32`, `f64`, `bool`, `()` ...) can be reused after being passed as parameter.
+//!
+//! ```rust
+//! fn add(left: u64, right: u64) -> u64 { left + right }
+//!
+//! let one = 1;
+//! let two = add(one, one);
+//! let three = add(two, one);
+//! ```
+//!
+//! For _copy types_, each time value is assigned instead of moving ownership, Rust creates a new instance by making a memory copy. Custom types can be made _copy type_ by deriving `Copy`.
+//!
+//! ```rust
+//! #[derive(Clone, Copy)]
+//! struct MyType {}
+//!
+//! impl MyType {
+//!     fn consume(self) {}
+//! }
+//!
+//! let variable = MyType {};
+//! variable.consume();
+//! variable.consume();
+//! ```
+//!
+//! ## Borrowing
+//!
+//! Rust also offers a solution to share a value without copying through borrowing. To borrow a value, owner must be prefix with `&` and requesting borrowing work the same way on type.
+//!
+//! ```rust
+//! # struct MyType {}
+//! fn borrowing_value(parameter: &MyType) {}
+//!
+//! let variable = MyType {};
+//!
+//! let first_borrowed = &variable; // Scoped to block
+//! let second_one = &variable;
+//!
+//! borrowing_value(&variable); // Scoped to call
+//!
+//! borrowing_value(first_borrowed);
+//! borrowing_value(second_one);
+//! ```
+//!
+//! Borrow last until variable goes out of scope and is immutable even if original variable is mutable.
+//!
+//! _Note: `&str` can be created from by borrowing from a `String`._
+//!
+//! ## Mutability
+//!
+//! While any number of immutable borrow may exist at a time, one and only one can be mutable. It is like requesting a write/exclusive lock to the value. Mutable borrow can only be get from a mutable variable.
+//!
+//! ```rust
+//! # struct MyType { field: i32 }
+//! fn mutable_borrow(parameter: &mut MyType) {
+//!     parameter.field = 0;
+//! }
+//!
+//! let mut variable = MyType { field: 42 };
+//!
+//! mutable_borrow(&mut variable); // Scoped to call
+//!
+//! let borrowed = &mut variable; // Scoped to block
+//! mutable_borrow(borrowed);
+//!
+//! // Compilation error
+//! // let forbidden = &mut variable;
+//! ```
+//!
+//! ## Dereferencing
+//!
+//! Sometimes having concrete type instead of a reference (`&`) is required but don't need ownership. Then uses dereference operator (`*`).
+//!
+//! ```rust
+//! let owned = String::from("");
+//!
+//! {
+//!     let reference = &owned;
+//!     let compare = String::new();
+//!     println!("is equal: {}", *reference == compare);
+//! }
+//!
+//! let moved = owned;
+//! ```
+//!
+//! Other nice thing is ability to change target through an `&mut`.
+//!
+//! ```rust
+//! struct Foo { bar: String, }
+//!
+//! impl Foo {
+//!     // Getter
+//!     fn bar(&self) -> &String {
+//!         &self.bar
+//!     }
+//!
+//!     // Mutator
+//!     fn bar_mut(&mut self) -> &mut String {
+//!         &mut self.bar
+//!     }
+//! }
+//!
+//! let mut foo = Foo { bar: String::from("toto"), };
+//! let foo_bar_mut = foo.bar_mut();
+//! *foo_bar_mut = String::from("lala");
+//! ```
 
 #[cfg(test)]
-mod color_should {
-    use super::*;
-
-    #[test]
-    fn support_equality_comparison() {
-        assert_eq!(Color { red: 32u8, green: 64u8, blue: 128u8 }, Color { red: 32u8, green: 64u8, blue: 128u8 });
-    }
-
-    #[test]
-    fn be_a_copy_type() {
-        let original = Color { red: 32u8, green: 64u8, blue: 128u8 };
-        let copy = original;
-        assert_eq!(original, copy);
-    }
-}
-
-struct Car {
-    brand: String,
-    model: String,
-}
-
-#[cfg(test)]
-mod car_should {
-    use super::*;
-    
-    #[test]
-    fn have_brand_getter_which_doesnt_consume_self() {
-        let car = Car { brand: String::from("Dacia"), model: String::from("Logan") };
-        assert_eq!(String::from("Dacia"), *car.brand());
-        assert_eq!(String::from("Logan"), *car.model());
-    }
-    
-    #[test]
-    fn have_model_getter_which_doesnt_consume_self() {
-        let car = Car { brand: String::from("Audi"), model: String::from("R8") };
-        assert_eq!(String::from("R8"), *car.model());
-        assert_eq!(String::from("Audi"), *car.brand());
-    }
-    
-    #[test]
-    fn have_brand_setter_which_doesnt_consume_self() {
-        let mut car = Car { brand: String::from("Mercedes"), model: String::from("W176") };
-        car.set_model("A-Class");
-        assert_eq!(String::from("Mercedes"), *car.brand());
-        assert_eq!(String::from("A-Class"), *car.model());
-    }
-}
-
-#[cfg(test)]
-mod car_builder_should {
-    use super::*;
-
-    #[test]
-    fn build_car_with_empty_names_by_default() {
-        let builder = CarBuilder::new();
-        let car = builder.build();
-
-        assert_eq!(String::from(""), *car.brand());
-        assert_eq!(String::from(""), *car.model());
-    }
-
-    #[test]
-    fn build_car_using_a_fluent_interface() {
-        let builder = CarBuilder::new();
-        let car = builder.brand("Tesla").model("Model S").build();
-
-        assert_eq!(String::from("Tesla"), *car.brand());
-        assert_eq!(String::from("Model S"), *car.model());
-    }
-}
+mod tests;

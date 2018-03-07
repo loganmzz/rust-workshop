@@ -1,61 +1,93 @@
-#![allow(dead_code)]
-
+//! 02 Control
+//! ----------
 //!
-//! INSTRUCTIONS: Try to use the three loop types for each exercise.
-//! 
-
-
-/// Computes product of numbers between `from` and `to` (both included !)
-/// 
-/// For example: `product_range(4, 6) = 4 x 5 x 6 = 120`
-/// 
-fn product_range(from: u32, to: u32) -> u32 {
-    0
-}
+//! Welcome to second step of this Rust workshop.
+//!
+//! This step focuses on structure controls in Rust.
+//!
+//! ## Conditional branching
+//!
+//! As in many languages, conditions are expressed with `if` and `else` keywords (and chained with `else if`). Condition expression isn't put into parentheses but curly braces are mandatory.
+//!
+//! ```rust
+//! # fn do_something() {}
+//! # fn do_alternative() {}
+//! # fn otherwise() {}
+//! #
+//! # let a_condition = false;
+//! # let one_variable = 0;
+//! #
+//! if a_condition {
+//!     do_something();
+//! } else if one_variable == 42 {
+//!     do_alternative();
+//! } else {
+//!     otherwise();
+//! }
+//! ```
+//!
+//! As describe previously, blocks are also expressions and so, the same apply for conditional.
+//!
+//! ```rust
+//! fn fizzbuzz(num: u32) -> String {
+//!     if num % 15 == 0 {
+//!         String::from("FizzBuzz")
+//!     } else if num % 5 == 0 {
+//!         String::from("Buzz")
+//!     } else if num % 3 == 0 {
+//!         String::from("Fizz")
+//!     } else {
+//!         num.to_string()
+//!     }
+//! }
+//! ```
+//!
+//! ## Conditional loop
+//!
+//! A condition can be checked in loop until it goes `false` using `while` keyword.
+//!
+//! ```rust
+//! # fn next(value: i32) -> i32 { value - 1 }
+//! #
+//! # let mut value = 0;
+//! #
+//! while value != 0 {
+//!     value = next(value);
+//! }
+//! ```
+//!
+//! As usual, `break` can be used to exit loop and `continue` to jump to next iteration.
+//!
+//! ## Infinite loop
+//!
+//! Infinite loop can be created with `loop` keyword. And `break` can be used to "return" a value.
+//!
+//! ```rust
+//! # fn next() -> i32 { 0 }
+//! #
+//! let state = loop {
+//!     let value = next();
+//!     if value == 0 {
+//!         break "OK";
+//!     } else if value < 0 {
+//!         break "ERR";
+//!     }
+//! };
+//! ```
+//!
+//! ## Iterative loop
+//!
+//! `for` keyword is used to create a loop iterating over a collection, a range, ...
+//!
+//! ```rust
+//! for element in vec![0, 1, 2, 3, 4] {
+//!     // ...
+//! }
+//!
+//! for i in 0..5 {
+//!     // ...
+//! }
+//! ```
 
 #[cfg(test)]
-mod product_range_should {
-
-    use super::product_range;
-
-    #[test]
-    fn return_2_when_from_2_to_2() {
-        assert_eq!(2u32, product_range(2, 2));
-    }
-
-    #[test]
-    fn return_120_when_from_4_to_6() {
-        assert_eq!(120u32, product_range(4, 6));
-    }
-
-    #[test]
-    fn return_720_when_from_2_to_6() {
-        assert_eq!(720u32, product_range(2, 6));
-    }
-
-}
-
-/// Returns last number before `0` and returns `0` if none.
-/// 
-/// For example: `last_non_zero([5, 6, 0, 1, 3]) = 6`
-/// 
-fn last_non_zero(numbers: Vec<u32>) -> u32 {
-    0
-}
-
-#[cfg(test)]
-mod last_non_zero_should {
-
-    use super::last_non_zero;
-
-    #[test]
-    fn return_0_when_empty() {
-        assert_eq!(0u32, last_non_zero(vec![]));
-    }
-
-    #[test]
-    fn return_6_when_5_6_0_1_3() {
-        assert_eq!(6u32, last_non_zero(vec![5, 6, 0, 1, 3]));
-    }
-
-}
+mod tests;
