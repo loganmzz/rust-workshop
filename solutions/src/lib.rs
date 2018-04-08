@@ -8,3 +8,4 @@ mod _07_pattern_matching;
 mod _08_generics;
 mod _09_error_management;
 mod _10_collections;
+mod _11_parallelism;

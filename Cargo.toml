@@ -17,6 +17,7 @@ members = [
   "08-generics",
   "09-error_management",
   "10-collections",
+  "11-parallelism",
   "solutions",
 ]
 
