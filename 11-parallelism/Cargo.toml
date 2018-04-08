@@ -1,0 +1,9 @@
+[package]
+name = "11_parallelism"
+version = "0.1.0"
+authors = [
+    "Alessio Coltellacci <lightplay8@gmail.com>",
+    "Logan Mzz <loganmzz@users.noreply.github.com>"
+]
+
+[dependencies]
