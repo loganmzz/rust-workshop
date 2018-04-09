@@ -1,3 +1,7 @@
+#![doc(
+html_playground_url = "https://play.rust-lang.org/",
+)]
+
 //! 09 Error management
 //! -------------------
 //!
