@@ -3,15 +3,17 @@
 //!
 //! Welcome to fifth step of this Rust workshop.
 //!
-//! This step focuses on how Rust follows references.
+//! This step focuses on how Rust follows borrowed references.
 //!
 //! ## Syntax
+//!
+//! Lifetimes, as name suggest, is concept used by Rust to track life duration (scope) of borrows, and ensure borrowing rules (seen in previous chapter) are not violated.
 //!
 //! Lifetime shares their syntax with generics (see later) but prefixing variable by a quote (`'`). And can be applied to any declaration (function, struct, ...).
 //!
 //! ```rust
 //! #[derive(Debug)]
-//! struct Foo<'a> { bar: &'a str, }
+//! struct Foo<'a> { bar: &'a str, } // Foo can't survive to bar
 //!
 //! fn display<'b>(foo: &Foo<'b>) {
 //!     println!("{:?}", foo);
@@ -22,7 +24,7 @@
 //! display(&foo);
 //! ```
 //!
-//! _Note: inference mechanism still applies. So it is not always mandatory to specify lifetime at usage._
+//! _Note: inference mechanism still applies. So it is rarely necessary to specify lifetime at usage._
 //!
 //! ## Elision
 //!
