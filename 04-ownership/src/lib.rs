@@ -148,6 +148,14 @@
 //! let foo_bar_mut = foo.bar_mut();
 //! *foo_bar_mut = String::from("lala");
 //! ```
+//!
+//! ## Reminder
+//!
+//! Because a picture is worth a thousand words:
+//!
+//! ![Ownership and borrowing in Rust](https://rufflewind.com/img/rust-move-copy-borrow.png)
+//!
+//! _(Source: [Graphical depiction of ownership and borrowing in Rust](https://rufflewind.com/2017-02-15/rust-move-copy-borrow))_
 
 #[cfg(test)]
 mod tests;
