@@ -10,3 +10,4 @@ mod _09_error_management;
 mod _10_closure;
 mod _11_collections;
 mod _12_parallelism;
+mod _13_memory;

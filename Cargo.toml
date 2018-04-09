@@ -19,6 +19,7 @@ members = [
   "10-closure",
   "11-collections",
   "12-parallelism",
+  "13-memory",
   "solutions",
 ]
 
