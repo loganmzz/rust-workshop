@@ -7,5 +7,6 @@ mod _06_trait;
 mod _07_pattern_matching;
 mod _08_generics;
 mod _09_error_management;
-mod _10_collections;
-mod _11_parallelism;
+mod _10_closure;
+mod _11_collections;
+mod _12_parallelism;

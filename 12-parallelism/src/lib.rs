@@ -1,7 +1,11 @@
-//! 11 Parallelism
+#![doc(
+html_playground_url = "https://play.rust-lang.org/",
+)]
+
+//! 12 Parallelism
 //! --------------
 //!
-//! Welcome to eleventh step of this Rust workshop.
+//! Welcome to twelfth step of this Rust workshop.
 //!
 //! This step focuses on basic multithreading API in Rust
 //!
