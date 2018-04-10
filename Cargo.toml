@@ -16,8 +16,9 @@ members = [
   "07-pattern_matching",
   "08-generics",
   "09-error_management",
-  "10-collections",
-  "11-parallelism",
+  "10-closure",
+  "11-collections",
+  "12-parallelism",
   "solutions",
 ]
 

@@ -2,10 +2,10 @@
 	html_playground_url = "https://play.rust-lang.org/",
 )]
 
-//! 10 Collections
+//! 11 Collections
 //! --------------
 //!
-//! Welcome to tenth step of this Rust workshop.
+//! Welcome to eleventh step of this Rust workshop.
 //!
 //! This step focuses on managing collection of data.
 //!

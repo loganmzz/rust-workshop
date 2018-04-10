@@ -1,5 +1,5 @@
 [package]
-name = "11_parallelism"
+name = "12_parallelism"
 version = "0.1.0"
 authors = [
     "Alessio Coltellacci <lightplay8@gmail.com>",

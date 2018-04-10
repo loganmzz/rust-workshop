@@ -1,0 +1,6 @@
+[package]
+name = "10_closure"
+version = "0.1.0"
+authors = ["Alessio Coltellacci <lightplay8@gmail.com>"]
+
+[dependencies]
