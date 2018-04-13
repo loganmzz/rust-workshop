@@ -18,7 +18,7 @@ mod tuple_point_should {
     
     #[test]
     fn be_created_as_tuple_of_i64() {
-        let point = TuplePoint(1i64, 2i64);
+        TuplePoint(1i64, 2i64);
     }
 
     #[test]
@@ -89,7 +89,7 @@ mod named_point_should {
     
     #[test]
     fn be_created_as_struct() {
-        let point = NamedPoint { x: 1i64, y: 2i64, name: String::from("standard init") };
+        NamedPoint { x: 1i64, y: 2i64, name: String::from("standard init") };
     }
 
     #[test]

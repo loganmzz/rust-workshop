@@ -156,7 +156,6 @@ mod spy {
 mod tree {
 	use std::rc::{Rc, Weak};
 	use std::cell::{Ref, RefCell};
-	use std::fmt::{Debug, Formatter, Result as FmtResult};
 
 	pub struct Tree<T>(Rc<RefCell<TreeNode<T>>>);
 
