@@ -1,0 +1,1 @@
+# Introduction slides for the [rust-workshop](https://github.com/logan-et-alessio/rust-workshop)
