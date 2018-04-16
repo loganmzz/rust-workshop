@@ -1,0 +1,18 @@
+var searchIndex = {};
+searchIndex["00_workshop"] = {"doc":"Welcome to Rust workshop ------------------------","items":[],"paths":[]};
+searchIndex["01_basic"] = {"doc":"01 Basic --------","items":[],"paths":[]};
+searchIndex["02_control"] = {"doc":"02 Control ----------","items":[],"paths":[]};
+searchIndex["03_types"] = {"doc":"03 Types ---------","items":[],"paths":[]};
+searchIndex["04_ownership"] = {"doc":"04 Ownership ------------","items":[],"paths":[]};
+searchIndex["05_lifetime"] = {"doc":"05 Lifetime -----------","items":[],"paths":[]};
+searchIndex["06_trait"] = {"doc":"06 Trait --------","items":[],"paths":[]};
+searchIndex["07_pattern_matching"] = {"doc":"07 Pattern matching -------------------","items":[],"paths":[]};
+searchIndex["08_generics"] = {"doc":"08 Generics -----------","items":[],"paths":[]};
+searchIndex["09_error_management"] = {"doc":"09 Error management -------------------","items":[],"paths":[]};
+searchIndex["10_closure"] = {"doc":"10 Closure (optional) ---------------------","items":[],"paths":[]};
+searchIndex["11_collections"] = {"doc":"11 Collections --------------","items":[],"paths":[]};
+searchIndex["12_parallelism"] = {"doc":"12 Parallelism --------------","items":[],"paths":[]};
+searchIndex["13_memory"] = {"doc":"13 Memory --------------","items":[],"paths":[]};
+searchIndex["99_challenge"] = {"doc":"99 Challenge --------------","items":[],"paths":[]};
+searchIndex["solutions"] = {"doc":"","items":[],"paths":[]};
+initSearch(searchIndex);

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `01_basic` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, 01_basic">
+
+    <title>01_basic - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Crate 01_basic</p><div class="sidebar-elems"><p class='location'></p><script>window.sidebarCurrent = {name: '01_basic', ty: 'mod', relpath: '../'};</script></div>
+    </nav>
+
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>01_basic</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/01_basic/lib.rs.html#1-138' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><h2 id="01-basic" class="section-header"><a href="#01-basic">01 Basic</a></h2>
+<p>Welcome to first step of this Rust workshop.</p>
+<p>This first step aims to teach you the very basis of Rust syntax (variables, primitives, functions, ...)</p>
+<p>So, before starting few things to know :</p>
+<h2 id="variables" class="section-header"><a href="#variables">Variables</a></h2>
+<p>To create a variable, just use <code>let</code>:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">my_variable</span> <span class="op">=</span> <span class="number">42</span>;<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Alet%20my_variable%20%3D%2042%3B%0A%7D">Run</a></pre>
+<p>You can also add a type hint with <code>: &lt;type&gt;</code> syntax but it is generally optional as compiler may infer it most time (from assignment but also usage):</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">my_variable</span>: <span class="ident">i32</span>;<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Alet%20my_variable%3A%20i32%3B%0A%7D">Run</a></pre>
+<p>You may assign value at variable declaration or later:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">not_initialized</span>;
+<span class="kw">let</span> <span class="ident">initialized</span> <span class="op">=</span> <span class="number">42</span>;
+<span class="ident">not_initialized</span> <span class="op">=</span> <span class="ident">initialized</span>;<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Alet%20not_initialized%3B%0Alet%20initialized%20%3D%2042%3B%0Anot_initialized%20%3D%20initialized%3B%0A%7D">Run</a></pre>
+<p><em>Note: Rust uses <a href="https://en.wikipedia.org/wiki/Snake_case"><code>snake_case</code></a> convention for function and variable names. Compiler will warn you if you don't.</em></p>
+<h2 id="primitives" class="section-header"><a href="#primitives">Primitives</a></h2><h3 id="boolean" class="section-header"><a href="#boolean">Boolean</a></h3>
+<p>Let's starts with boolean. They are represented by <code>bool</code> and can have two values: <code>true</code> or <code>false</code>.</p>
+<h3 id="numbers" class="section-header"><a href="#numbers">Numbers</a></h3>
+<p>Let's continue with number. Integers may be signed (<code>i</code> prefix) or unsigned (<code>u</code> prefix) and their name defines their size (<code>8</code>, <code>16</code>, <code>32</code> or <code>64</code>). One exception is <code>size</code> prefix which depends on your system architecture. Decimal (<code>f</code> prefix) may only available with two size: simple precision (<code>32</code>) or double one (<code>64</code>).</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">signed_32bits_integer</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="op">-</span><span class="number">400</span>;
+<span class="kw">let</span> <span class="ident">unsigned_8bits_integer</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">255</span>;
+<span class="kw">let</span> <span class="ident">only_supported_on_64bits_architecture</span>: <span class="ident">isize</span> <span class="op">=</span> <span class="op">-</span><span class="number">9_000_000_000_000_000_000</span>;
+<span class="kw">let</span> <span class="ident">decimal</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="op">-</span><span class="number">3.14</span>;<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Alet%20signed_32bits_integer%3A%20i32%20%3D%20-400%3B%0Alet%20unsigned_8bits_integer%3A%20u8%20%3D%20255%3B%0Alet%20only_supported_on_64bits_architecture%3A%20isize%20%3D%20-9_000_000_000_000_000_000%3B%0Alet%20decimal%3A%20f64%20%3D%20-3.14%3B%0A%7D">Run</a></pre>
+<p>Type hint can be replaced by suffixing literal (<code>-400i32</code>).</p>
+<p><em>Note: there is no implicit number conversion. Explicitness is mandatory through <code>as</code> keyword.</em></p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">unsigned_8bits_integer</span> <span class="op">=</span> <span class="number">255u8</span>;
+<span class="kw">let</span> <span class="ident">unsigned_16bits_integer</span> <span class="op">=</span> <span class="number">256u16</span>;
+<span class="kw">let</span> <span class="ident">add</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="ident">unsigned_8bits_integer</span> <span class="kw">as</span> <span class="ident">u16</span> <span class="op">+</span> <span class="ident">unsigned_16bits_integer</span>;<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Alet%20unsigned_8bits_integer%20%3D%20255u8%3B%0Alet%20unsigned_16bits_integer%20%3D%20256u16%3B%0Alet%20add%3A%20u16%20%3D%20unsigned_8bits_integer%20as%20u16%20%2B%20unsigned_16bits_integer%3B%0A%7D">Run</a></pre>
+<h3 id="strings" class="section-header"><a href="#strings">Strings</a></h3>
+<p><em>Note: don't bother about notations and just accept it for the moment.</em></p>
+<p>Unlike other languages, strings are a bit more complex and refer to many types. A <code>&quot;a string literal&quot;</code> doesn't denote a <code>String</code> but a <code>&amp;'static str</code> ! You can think at it as a memory reference to character array stores into executable binary. To create a <code>String</code> from a string literal just use the <code>String::from()</code> function.</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">string_literal</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;a static message&quot;</span>;
+<span class="kw">let</span> <span class="ident">string</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">string_literal</span>);<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Alet%20string_literal%3A%20%26'static%20str%20%3D%20%22a%20static%20message%22%3B%0Alet%20string%3A%20String%20%3D%20String%3A%3Afrom(string_literal)%3B%0A%7D">Run</a></pre>
+<p>String can also be built with <code>format!(pattern, param1, param2, ...)</code> macro using <code>{}</code> (<code>Display</code>) or <code>{:?}</code> (<code>Debug</code>) as placeholders. Pattern is checked at compile time !</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">parameter</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;a parameter&quot;</span>;
+<span class="kw">let</span> <span class="ident">message</span>: <span class="ident">String</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Display: {}\nDebug: {:?}&quot;</span>, <span class="ident">parameter</span>, <span class="ident">parameter</span>);<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Alet%20parameter%3A%20%26'static%20str%20%3D%20%22a%20parameter%22%3B%0Alet%20message%3A%20String%20%3D%20format!(%22Display%3A%20%7B%7D%5CnDebug%3A%20%7B%3A%3F%7D%22%2C%20parameter%2C%20parameter)%3B%0A%7D">Run</a></pre>
+<p>In the same manner, <code>println!</code> and <code>eprintln!</code> are used to print string respectively on &quot;stdout&quot; and &quot;stderr&quot;.</p>
+<p>Finally any type supporting <code>Display</code> has also a <code>to_string()</code> method.</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">numToString</span>: <span class="ident">String</span> <span class="op">=</span> <span class="number">42u64</span>.<span class="ident">to_string</span>();
+<span class="kw">let</span> <span class="ident">strToString</span>: <span class="ident">String</span> <span class="op">=</span> <span class="string">&quot;some characters&quot;</span>.<span class="ident">to_string</span>();<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Alet%20numToString%3A%20String%20%3D%2042u64.to_string()%3B%0Alet%20strToString%3A%20String%20%3D%20%22some%20characters%22.to_string()%3B%0A%7D">Run</a></pre>
+<h3 id="unit" class="section-header"><a href="#unit">Unit</a></h3>
+<p>Let's terminate tour of primitive types and literals with unit type. It equals <code>void</code> type/keyword into some other languages. It means &quot;nothing&quot;. It is the default function return type and so can be omitted. It is both represented as type and value by <code>()</code>.</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">unit</span>: () <span class="op">=</span> ();<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Alet%20unit%3A%20()%20%3D%20()%3B%0A%7D">Run</a></pre>
+<h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2>
+<p>Functions are declared with <code>fn function_name(param1: type1, param2: type2) -&gt; ReturnType {}</code>. <strong>ALL</strong> types are mandatory as there is no type inference in function signature in order to ensure consistency ; except for return type which can be omitted if <em>nothing</em> (<code>()</code>) is returned.</p>
+<p>Curly braces are mandatory and if function ends with an <strong>expresssion</strong> (not a statement which ends with a trailing <code>;</code>) it is used as return value. However you can use a <code>return</code> <strong>statement</strong> for early returns.</p>
+<p>_Note: in Rust all blocks are considered as an expression. And then can <em>return</em> values by ending block with an expression.</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">fn</span> <span class="ident">add</span>(<span class="ident">left</span>: <span class="ident">i64</span>, <span class="ident">right</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">i64</span> {
+    <span class="ident">left</span> <span class="op">+</span> <span class="ident">right</span> <span class="comment">// No trailing &#39;;&#39;</span>
+}
+
+<span class="kw">fn</span> <span class="ident">mul</span>(<span class="ident">left</span>: <span class="ident">i64</span>, <span class="ident">right</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="ident">i64</span> {
+    <span class="kw">return</span> <span class="ident">left</span> <span class="op">*</span> <span class="ident">right</span>;
+}<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Afn%20add(left%3A%20i64%2C%20right%3A%20i64)%20-%3E%20i64%20%7B%0A%20%20%20%20left%20%2B%20right%20%2F%2F%20No%20trailing%20'%3B'%0A%7D%0A%0Afn%20mul(left%3A%20i64%2C%20right%3A%20i64)%20-%3E%20i64%20%7B%0A%20%20%20%20return%20left%20*%20right%3B%0A%7D%0A%7D">Run</a></pre>
+<h2 id="standard-library" class="section-header"><a href="#standard-library">Standard library</a></h2>
+<p>Finally, API documentation is available at <a href="https://doc.rust-lang.org/std/">https://doc.rust-lang.org/std/</a>. Rust is shipped with other crates (Rust packaging) but only <code>std</code> matters as other are included by it.</p>
+<p>First thing to notice is the search bar ; it is a good entry when looking for something or even to quickly jump into it. In order to use it efficiently, an attention must be given to colors :</p>
+<ul>
+<li>blue for module (<a href="https://doc.rust-lang.org/stable/std/usize/">exemple</a>)</li>
+<li>orange for struct (<a href="https://doc.rust-lang.org/stable/std/string/struct.String.html">exemple</a>)</li>
+<li>darker green for enum (<a href="https://doc.rust-lang.org/stable/std/result/enum.Result.html">exemple</a>)</li>
+<li>purple for trait (<a href="https://doc.rust-lang.org/stable/std/marker/trait.Copy.html">exemple</a>)</li>
+<li>brown for function and method (<a href="https://doc.rust-lang.org/stable/std/result/enum.Result.html#method.is_ok">exemple</a>)</li>
+<li>lighter green for macro (<a href="https://doc.rust-lang.org/stable/std/macro.println.html">exemple</a>)</li>
+<li>grayed blue for constant (<a href="https://doc.rust-lang.org/stable/std/usize/constant.MAX.html">exemple</a>)</li>
+<li>cyan for primitive (<a href="https://doc.rust-lang.org/stable/std/primitive.usize.html">exemple</a>)</li>
+</ul>
+<p><em>Note: looking at link url will also give information.</em></p>
+<p>All crates automatically import <a href="https://doc.rust-lang.org/std/prelude/"><code>std::prelude</code></a> module (i.e. namespace).</p>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt><kbd>?</kbd></dt>
+                    <dd>Show this help dialog</dd>
+                    <dt><kbd>S</kbd></dt>
+                    <dd>Focus the search field</dd>
+                    <dt><kbd>↑</kbd></dt>
+                    <dd>Move up in search results</dd>
+                    <dt><kbd>↓</kbd></dt>
+                    <dd>Move down in search results</dd>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
+                    <dd>Go to active search result</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "01_basic";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

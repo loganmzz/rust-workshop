@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="Source to the Rust file `01-basic/src/lib.rs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang">
+
+    <title>lib.rs.html -- source</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
+    
+
+    
+    
+</head>
+<body class="rustdoc source">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        
+    </nav>
+
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content"><pre class="line-numbers"><span id="1">  1</span>
+<span id="2">  2</span>
+<span id="3">  3</span>
+<span id="4">  4</span>
+<span id="5">  5</span>
+<span id="6">  6</span>
+<span id="7">  7</span>
+<span id="8">  8</span>
+<span id="9">  9</span>
+<span id="10"> 10</span>
+<span id="11"> 11</span>
+<span id="12"> 12</span>
+<span id="13"> 13</span>
+<span id="14"> 14</span>
+<span id="15"> 15</span>
+<span id="16"> 16</span>
+<span id="17"> 17</span>
+<span id="18"> 18</span>
+<span id="19"> 19</span>
+<span id="20"> 20</span>
+<span id="21"> 21</span>
+<span id="22"> 22</span>
+<span id="23"> 23</span>
+<span id="24"> 24</span>
+<span id="25"> 25</span>
+<span id="26"> 26</span>
+<span id="27"> 27</span>
+<span id="28"> 28</span>
+<span id="29"> 29</span>
+<span id="30"> 30</span>
+<span id="31"> 31</span>
+<span id="32"> 32</span>
+<span id="33"> 33</span>
+<span id="34"> 34</span>
+<span id="35"> 35</span>
+<span id="36"> 36</span>
+<span id="37"> 37</span>
+<span id="38"> 38</span>
+<span id="39"> 39</span>
+<span id="40"> 40</span>
+<span id="41"> 41</span>
+<span id="42"> 42</span>
+<span id="43"> 43</span>
+<span id="44"> 44</span>
+<span id="45"> 45</span>
+<span id="46"> 46</span>
+<span id="47"> 47</span>
+<span id="48"> 48</span>
+<span id="49"> 49</span>
+<span id="50"> 50</span>
+<span id="51"> 51</span>
+<span id="52"> 52</span>
+<span id="53"> 53</span>
+<span id="54"> 54</span>
+<span id="55"> 55</span>
+<span id="56"> 56</span>
+<span id="57"> 57</span>
+<span id="58"> 58</span>
+<span id="59"> 59</span>
+<span id="60"> 60</span>
+<span id="61"> 61</span>
+<span id="62"> 62</span>
+<span id="63"> 63</span>
+<span id="64"> 64</span>
+<span id="65"> 65</span>
+<span id="66"> 66</span>
+<span id="67"> 67</span>
+<span id="68"> 68</span>
+<span id="69"> 69</span>
+<span id="70"> 70</span>
+<span id="71"> 71</span>
+<span id="72"> 72</span>
+<span id="73"> 73</span>
+<span id="74"> 74</span>
+<span id="75"> 75</span>
+<span id="76"> 76</span>
+<span id="77"> 77</span>
+<span id="78"> 78</span>
+<span id="79"> 79</span>
+<span id="80"> 80</span>
+<span id="81"> 81</span>
+<span id="82"> 82</span>
+<span id="83"> 83</span>
+<span id="84"> 84</span>
+<span id="85"> 85</span>
+<span id="86"> 86</span>
+<span id="87"> 87</span>
+<span id="88"> 88</span>
+<span id="89"> 89</span>
+<span id="90"> 90</span>
+<span id="91"> 91</span>
+<span id="92"> 92</span>
+<span id="93"> 93</span>
+<span id="94"> 94</span>
+<span id="95"> 95</span>
+<span id="96"> 96</span>
+<span id="97"> 97</span>
+<span id="98"> 98</span>
+<span id="99"> 99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+</pre><pre class="rust ">
+<span class="attribute">#![<span class="ident">doc</span>(
+<span class="ident">html_playground_url</span> <span class="op">=</span> <span class="string">&quot;https://play.rust-lang.org/&quot;</span>,
+)]</span>
+
+<span class="doccomment">//! 01 Basic</span>
+<span class="doccomment">//! --------</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Welcome to first step of this Rust workshop.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! This first step aims to teach you the very basis of Rust syntax (variables, primitives, functions, ...)</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! So, before starting few things to know :</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Variables</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! To create a variable, just use `let`:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! let my_variable = 42;</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! You can also add a type hint with `: &lt;type&gt;` syntax but it is generally optional as compiler may infer it most time (from assignment but also usage):</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! let my_variable: i32;</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! You may assign value at variable declaration or later:</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! let not_initialized;</span>
+<span class="doccomment">//! let initialized = 42;</span>
+<span class="doccomment">//! not_initialized = initialized;</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! _Note: Rust uses [`snake_case`](https://en.wikipedia.org/wiki/Snake_case) convention for function and variable names. Compiler will warn you if you don&#39;t._</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Primitives</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ### Boolean</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Let&#39;s starts with boolean. They are represented by `bool` and can have two values: `true` or `false`.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ### Numbers</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Let&#39;s continue with number. Integers may be signed (`i` prefix) or unsigned (`u` prefix) and their name defines their size (`8`, `16`, `32` or `64`). One exception is `size` prefix which depends on your system architecture. Decimal (`f` prefix) may only available with two size: simple precision (`32`) or double one (`64`).</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! let signed_32bits_integer: i32 = -400;</span>
+<span class="doccomment">//! let unsigned_8bits_integer: u8 = 255;</span>
+<span class="doccomment">//! let only_supported_on_64bits_architecture: isize = -9_000_000_000_000_000_000;</span>
+<span class="doccomment">//! let decimal: f64 = -3.14;</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Type hint can be replaced by suffixing literal (`-400i32`).</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! _Note: there is no implicit number conversion. Explicitness is mandatory through `as` keyword._</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! let unsigned_8bits_integer = 255u8;</span>
+<span class="doccomment">//! let unsigned_16bits_integer = 256u16;</span>
+<span class="doccomment">//! let add: u16 = unsigned_8bits_integer as u16 + unsigned_16bits_integer;</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ### Strings</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! _Note: don&#39;t bother about notations and just accept it for the moment._</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Unlike other languages, strings are a bit more complex and refer to many types. A `&quot;a string literal&quot;` doesn&#39;t denote a `String` but a `&amp;&#39;static str` ! You can think at it as a memory reference to character array stores into executable binary. To create a `String` from a string literal just use the `String::from()` function.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! let string_literal: &amp;&#39;static str = &quot;a static message&quot;;</span>
+<span class="doccomment">//! let string: String = String::from(string_literal);</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! String can also be built with `format!(pattern, param1, param2, ...)` macro using `{}` (`Display`) or `{:?}` (`Debug`) as placeholders. Pattern is checked at compile time !</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! let parameter: &amp;&#39;static str = &quot;a parameter&quot;;</span>
+<span class="doccomment">//! let message: String = format!(&quot;Display: {}\nDebug: {:?}&quot;, parameter, parameter);</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! In the same manner, `println!` and `eprintln!` are used to print string respectively on &quot;stdout&quot; and &quot;stderr&quot;.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Finally any type supporting `Display` has also a `to_string()` method.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! let numToString: String = 42u64.to_string();</span>
+<span class="doccomment">//! let strToString: String = &quot;some characters&quot;.to_string();</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ### Unit</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Let&#39;s terminate tour of primitive types and literals with unit type. It equals `void` type/keyword into some other languages. It means &quot;nothing&quot;. It is the default function return type and so can be omitted. It is both represented as type and value by `()`.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! let unit: () = ();</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Functions</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Functions are declared with `fn function_name(param1: type1, param2: type2) -&gt; ReturnType {}`. **ALL** types are mandatory as there is no type inference in function signature in order to ensure consistency ; except for return type which can be omitted if _nothing_ (`()`) is returned.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Curly braces are mandatory and if function ends with an **expresssion** (not a statement which ends with a trailing `;`) it is used as return value. However you can use a `return` **statement** for early returns.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! _Note: in Rust all blocks are considered as an expression. And then can _return_ values by ending block with an expression.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust</span>
+<span class="doccomment">//! fn add(left: i64, right: i64) -&gt; i64 {</span>
+<span class="doccomment">//!     left + right // No trailing &#39;;&#39;</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! fn mul(left: i64, right: i64) -&gt; i64 {</span>
+<span class="doccomment">//!     return left * right;</span>
+<span class="doccomment">//! }</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Standard library</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Finally, API documentation is available at [https://doc.rust-lang.org/std/](https://doc.rust-lang.org/std/). Rust is shipped with other crates (Rust packaging) but only `std` matters as other are included by it.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! First thing to notice is the search bar ; it is a good entry when looking for something or even to quickly jump into it. In order to use it efficiently, an attention must be given to colors :</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! * blue for module ([exemple](https://doc.rust-lang.org/stable/std/usize/))</span>
+<span class="doccomment">//! * orange for struct ([exemple](https://doc.rust-lang.org/stable/std/string/struct.String.html))</span>
+<span class="doccomment">//! * darker green for enum ([exemple](https://doc.rust-lang.org/stable/std/result/enum.Result.html))</span>
+<span class="doccomment">//! * purple for trait ([exemple](https://doc.rust-lang.org/stable/std/marker/trait.Copy.html))</span>
+<span class="doccomment">//! * brown for function and method ([exemple](https://doc.rust-lang.org/stable/std/result/enum.Result.html#method.is_ok))</span>
+<span class="doccomment">//! * lighter green for macro ([exemple](https://doc.rust-lang.org/stable/std/macro.println.html))</span>
+<span class="doccomment">//! * grayed blue for constant ([exemple](https://doc.rust-lang.org/stable/std/usize/constant.MAX.html))</span>
+<span class="doccomment">//! * cyan for primitive ([exemple](https://doc.rust-lang.org/stable/std/primitive.usize.html))</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! _Note: looking at link url will also give information._</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! All crates automatically import [`std::prelude`](https://doc.rust-lang.org/std/prelude/) module (i.e. namespace).</span>
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span>;
+</pre>
+</section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt><kbd>?</kbd></dt>
+                    <dd>Show this help dialog</dd>
+                    <dt><kbd>S</kbd></dt>
+                    <dd>Focus the search field</dd>
+                    <dt><kbd>↑</kbd></dt>
+                    <dd>Move up in search results</dd>
+                    <dt><kbd>↓</kbd></dt>
+                    <dd>Move down in search results</dd>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
+                    <dd>Go to active search result</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "01_basic";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

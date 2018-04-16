@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `09_error_management` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, 09_error_management">
+
+    <title>09_error_management - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Crate 09_error_management</p><div class="sidebar-elems"><p class='location'></p><script>window.sidebarCurrent = {name: '09_error_management', ty: 'mod', relpath: '../'};</script></div>
+    </nav>
+
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>09_error_management</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/09_error_management/lib.rs.html#1-204' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><h2 id="09-error-management" class="section-header"><a href="#09-error-management">09 Error management</a></h2>
+<p>Welcome to ninth step of this Rust workshop.</p>
+<p>This step focuses on error handling.</p>
+<h2 id="may-success-or-fail" class="section-header"><a href="#may-success-or-fail">May success or fail</a></h2>
+<p><a href="https://doc.rust-lang.org/stable/std/result/enum.Result.html">Result</a> enum is used in Rust to indicate that a function may returns a successful value or an error.</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">fn</span> <span class="ident">i64_divide</span>(<span class="ident">dividend</span>: <span class="ident">i64</span>, <span class="ident">divisor</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i64</span>, <span class="ident">DivisionError</span><span class="op">&gt;</span> {
+    <span class="kw">if</span> <span class="ident">divisor</span> <span class="op">==</span> <span class="number">0</span> {
+        <span class="prelude-val">Err</span>(<span class="ident">DivisionError</span>::<span class="ident">Zero</span>)
+    } <span class="kw">else</span> {
+        <span class="kw">let</span> <span class="ident">quotient</span> <span class="op">=</span> <span class="ident">dividend</span> <span class="op">/</span> <span class="ident">divisor</span>;
+        <span class="kw">if</span> <span class="ident">dividend</span> <span class="op">!=</span> <span class="ident">quotient</span> <span class="op">*</span> <span class="ident">divisor</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">DivisionError</span>::<span class="ident">NotInteger</span>)
+        } <span class="kw">else</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">quotient</span>)
+        }
+    }
+}<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Aenum%20DivisionError%20%7B%20Zero%2C%20NotInteger%20%7D%0Afn%20i64_divide(dividend%3A%20i64%2C%20divisor%3A%20i64)%20-%3E%20Result%3Ci64%2C%20DivisionError%3E%20%7B%0A%20%20%20%20if%20divisor%20%3D%3D%200%20%7B%0A%20%20%20%20%20%20%20%20Err(DivisionError%3A%3AZero)%0A%20%20%20%20%7D%20else%20%7B%0A%20%20%20%20%20%20%20%20let%20quotient%20%3D%20dividend%20%2F%20divisor%3B%0A%20%20%20%20%20%20%20%20if%20dividend%20!%3D%20quotient%20*%20divisor%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20Err(DivisionError%3A%3ANotInteger)%0A%20%20%20%20%20%20%20%20%7D%20else%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20Ok(quotient)%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%7D%0A%7D">Run</a></pre>
+<p>Interesting things is that <code>Result</code> has very nice functional API:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">fn</span> <span class="ident">with</span>(<span class="ident">val</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="ident">val</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">ok</span><span class="op">|</span> <span class="ident">ok</span>.<span class="ident">to_string</span>())
+}
+<span class="ident">with</span>(<span class="prelude-val">Ok</span>(<span class="number">2</span>)); <span class="comment">// Ok(&quot;2&quot;)</span>
+<span class="ident">with</span>(<span class="prelude-val">Err</span>(<span class="string">&quot;error&quot;</span>)); <span class="comment">// Err(&quot;error&quot;)</span><a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Afn%20with(val%3A%20Result%3Ci32%2C%20%26'static%20str%3E)%20-%3E%20Result%3CString%2C%20%26'static%20str%3E%20%7B%0A%20%20%20%20val.map(%7Cok%7C%20ok.to_string())%0A%7D%0Awith(Ok(2))%3B%20%2F%2F%20Ok(%222%22)%0Awith(Err(%22error%22))%3B%20%2F%2F%20Err(%22error%22)%0A%7D">Run</a></pre>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">fn</span> <span class="ident">with</span>(<span class="ident">val</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span>, <span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="ident">val</span>.<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">err</span><span class="op">|</span> <span class="ident">err</span>.<span class="ident">to_uppercase</span>())
+}
+<span class="ident">with</span>(<span class="prelude-val">Ok</span>(<span class="number">2</span>)); <span class="comment">// Ok(2)</span>
+<span class="ident">with</span>(<span class="prelude-val">Err</span>(<span class="string">&quot;error&quot;</span>)); <span class="comment">// Err(&quot;ERROR&quot;)</span><a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Afn%20with(val%3A%20Result%3Ci32%2C%20%26'static%20str%3E)%20-%3E%20Result%3Ci32%2C%20String%3E%20%7B%0A%20%20%20%20val.map_err(%7Cerr%7C%20err.to_uppercase())%0A%7D%0Awith(Ok(2))%3B%20%2F%2F%20Ok(2)%0Awith(Err(%22error%22))%3B%20%2F%2F%20Err(%22ERROR%22)%0A%7D">Run</a></pre>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">val1</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">Ok</span>(<span class="number">2</span>).<span class="ident">and</span>(<span class="prelude-val">Ok</span>(<span class="number">4</span>)); <span class="comment">// Ok(4)</span>
+<span class="kw">let</span> <span class="ident">val2</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">Ok</span>(<span class="number">2</span>).<span class="ident">and</span>(<span class="prelude-val">Err</span>(<span class="string">&quot;error&quot;</span>)); <span class="comment">// Err(&quot;error&quot;)</span><a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Alet%20val1%3A%20Result%3Ci32%2C%20%26'static%20str%3E%20%3D%20Ok(2).and(Ok(4))%3B%20%2F%2F%20Ok(4)%0Alet%20val2%3A%20Result%3Ci32%2C%20%26'static%20str%3E%20%3D%20Ok(2).and(Err(%22error%22))%3B%20%2F%2F%20Err(%22error%22)%0A%7D">Run</a></pre>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">fn</span> <span class="ident">err</span>(<span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> { <span class="prelude-val">Err</span>(<span class="ident">msg</span>) }
+<span class="kw">let</span> <span class="ident">val1</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">err</span>(<span class="string">&quot;error&quot;</span>).<span class="ident">and</span>(<span class="prelude-val">Ok</span>(<span class="number">4</span>)); <span class="comment">// Err(&quot;error&quot;)</span>
+<span class="kw">let</span> <span class="ident">val2</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">err</span>(<span class="string">&quot;fatal&quot;</span>).<span class="ident">and</span>(<span class="prelude-val">Err</span>(<span class="string">&quot;useless&quot;</span>)); <span class="comment">// Err(&quot;fatal&quot;)</span><a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Afn%20err(msg%3A%20%26'static%20str)%20-%3E%20Result%3Ci32%2C%20%26'static%20str%3E%20%7B%20Err(msg)%20%7D%0Alet%20val1%3A%20Result%3Ci32%2C%20%26'static%20str%3E%20%3D%20err(%22error%22).and(Ok(4))%3B%20%2F%2F%20Err(%22error%22)%0Alet%20val2%3A%20Result%3Ci32%2C%20%26'static%20str%3E%20%3D%20err(%22fatal%22).and(Err(%22useless%22))%3B%20%2F%2F%20Err(%22fatal%22)%0A%7D">Run</a></pre>
+<h2 id="forwarding-error" class="section-header"><a href="#forwarding-error">Forwarding error</a></h2>
+<p>When chaining call, checking and returning back error may be quite annoying:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">fn</span> <span class="ident">parse_foo</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Foo</span>, <span class="ident">IoError</span><span class="op">&gt;</span> {
+    <span class="comment">/* ... */</span>
+}
+<span class="kw">fn</span> <span class="ident">parse_bar</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Bar</span>, <span class="ident">IoError</span><span class="op">&gt;</span> {
+    <span class="comment">/* ... */</span>
+}
+
+<span class="kw">fn</span> <span class="ident">read</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">FooBar</span>, <span class="ident">IoError</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">foo</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">parse_foo</span>(<span class="ident">input</span>) {
+        <span class="prelude-val">Ok</span>(<span class="ident">foo</span>) <span class="op">=&gt;</span> <span class="ident">foo</span>,
+        <span class="prelude-val">Err</span>(<span class="ident">io_error</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io_error</span>)
+    };
+
+    <span class="kw">let</span> <span class="ident">bar</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">parse_bar</span>(<span class="ident">input</span>) {
+        <span class="prelude-val">Ok</span>(<span class="ident">bar</span>) <span class="op">=&gt;</span> <span class="ident">bar</span>,
+        <span class="prelude-val">Err</span>(<span class="ident">io_error</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">io_error</span>)
+    };
+
+    <span class="prelude-val">Ok</span>(<span class="ident">FooBar</span> { <span class="ident">foo</span>, <span class="ident">bar</span> })
+}<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Astruct%20Foo%3B%0Astruct%20Bar%3B%0Astruct%20IoError%3B%0Astruct%20FooBar%20%7B%20foo%3A%20Foo%2C%20bar%3A%20Bar%20%7D%0Afn%20parse_foo(input%3A%20%26str)%20-%3E%20Result%3CFoo%2C%20IoError%3E%20%7B%0A%20%20%20%20%2F*%20...%20*%2F%0AOk(Foo)%0A%7D%0Afn%20parse_bar(input%3A%20%26str)%20-%3E%20Result%3CBar%2C%20IoError%3E%20%7B%0A%20%20%20%20%2F*%20...%20*%2F%0AOk(Bar)%0A%7D%0A%0Afn%20read(input%3A%20%26str)%20-%3E%20Result%3CFooBar%2C%20IoError%3E%20%7B%0A%20%20%20%20let%20foo%20%3D%20match%20parse_foo(input)%20%7B%0A%20%20%20%20%20%20%20%20Ok(foo)%20%3D%3E%20foo%2C%0A%20%20%20%20%20%20%20%20Err(io_error)%20%3D%3E%20return%20Err(io_error)%0A%20%20%20%20%7D%3B%0A%0A%20%20%20%20let%20bar%20%3D%20match%20parse_bar(input)%20%7B%0A%20%20%20%20%20%20%20%20Ok(bar)%20%3D%3E%20bar%2C%0A%20%20%20%20%20%20%20%20Err(io_error)%20%3D%3E%20return%20Err(io_error)%0A%20%20%20%20%7D%3B%0A%0A%20%20%20%20Ok(FooBar%20%7B%20foo%2C%20bar%20%7D)%0A%7D%0A%7D">Run</a></pre>
+<p><code>?</code> operator can be used to simplify such pattern:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">fn</span> <span class="ident">read</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">FooBar</span>, <span class="ident">IoError</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">foo</span> <span class="op">=</span> <span class="ident">parse_foo</span>(<span class="ident">input</span>)<span class="question-mark">?</span>;
+
+    <span class="kw">let</span> <span class="ident">bar</span> <span class="op">=</span> <span class="ident">parse_bar</span>(<span class="ident">input</span>)<span class="question-mark">?</span>;
+
+    <span class="prelude-val">Ok</span>(<span class="ident">FooBar</span> { <span class="ident">foo</span>, <span class="ident">bar</span> })
+}<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Astruct%20FooBar%20%7B%20foo%3A%20i32%2C%20bar%3A%20i32%20%7D%0Astruct%20IoError%3B%0Afn%20parse_foo(input%3A%20%26str)%20-%3E%20Result%3Ci32%2C%20IoError%3E%20%7B%20Ok(0)%20%7D%0Afn%20parse_bar(input%3A%20%26str)%20-%3E%20Result%3Ci32%2C%20IoError%3E%20%7B%20Ok(0)%20%7D%0A%0Afn%20read(input%3A%20%26str)%20-%3E%20Result%3CFooBar%2C%20IoError%3E%20%7B%0A%20%20%20%20let%20foo%20%3D%20parse_foo(input)%3F%3B%0A%0A%20%20%20%20let%20bar%20%3D%20parse_bar(input)%3F%3B%0A%0A%20%20%20%20Ok(FooBar%20%7B%20foo%2C%20bar%20%7D)%0A%7D%0A%7D">Run</a></pre>
+<p>Finally, Error can also be converted if <code>From</code> trait is implement for function error type:</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">enum</span> <span class="ident">MyError</span> {
+    <span class="ident">IoError</span>(<span class="ident">io</span>::<span class="ident">Error</span>),
+    <span class="ident">FooError</span>(<span class="ident">foo</span>::<span class="ident">Error</span>),
+}
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MyError</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">e</span>: <span class="ident">io</span>::<span class="ident">Error</span>) <span class="op">-&gt;</span> <span class="ident">MyError</span> {
+        <span class="ident">MyError</span>::<span class="ident">IoError</span>(<span class="ident">e</span>)
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">foo</span>::<span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MyError</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">e</span>: <span class="ident">foo</span>::<span class="ident">Error</span>) <span class="op">-&gt;</span> <span class="ident">MyError</span> {
+        <span class="ident">MyError</span>::<span class="ident">FooError</span>(<span class="ident">e</span>)
+    }
+}
+
+<span class="kw">fn</span> <span class="ident">does_io</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Foo</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+}
+<span class="kw">fn</span> <span class="ident">does_foo</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">foo</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+}
+<span class="kw">fn</span> <span class="ident">does</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Bar</span>, <span class="ident">MyError</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">foo</span> <span class="op">=</span> <span class="ident">does_io</span>()<span class="question-mark">?</span>;
+    <span class="ident">does_foo</span>()<span class="question-mark">?</span>;
+
+    <span class="prelude-val">Ok</span>(<span class="ident">Bar</span>)
+}<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Ause%20std%3A%3Aio%3B%0Amod%20foo%20%7B%20pub%20struct%20Error%3B%20%7D%0Astruct%20Foo%3B%0Astruct%20Bar%3B%0Aenum%20MyError%20%7B%0A%20%20%20%20IoError(io%3A%3AError)%2C%0A%20%20%20%20FooError(foo%3A%3AError)%2C%0A%7D%0A%0Aimpl%20From%3Cio%3A%3AError%3E%20for%20MyError%20%7B%0A%20%20%20%20fn%20from(e%3A%20io%3A%3AError)%20-%3E%20MyError%20%7B%0A%20%20%20%20%20%20%20%20MyError%3A%3AIoError(e)%0A%20%20%20%20%7D%0A%7D%0A%0Aimpl%20From%3Cfoo%3A%3AError%3E%20for%20MyError%20%7B%0A%20%20%20%20fn%20from(e%3A%20foo%3A%3AError)%20-%3E%20MyError%20%7B%0A%20%20%20%20%20%20%20%20MyError%3A%3AFooError(e)%0A%20%20%20%20%7D%0A%7D%0A%0Afn%20does_io()%20-%3E%20Result%3CFoo%2C%20io%3A%3AError%3E%20%7B%0AOk(Foo)%0A%7D%0Afn%20does_foo()%20-%3E%20Result%3C()%2C%20foo%3A%3AError%3E%20%7B%0AOk(())%0A%7D%0Afn%20does()%20-%3E%20Result%3CBar%2C%20MyError%3E%20%7B%0A%20%20%20%20let%20foo%20%3D%20does_io()%3F%3B%0A%20%20%20%20does_foo()%3F%3B%0A%0A%20%20%20%20Ok(Bar)%0A%7D%0A%7D">Run</a></pre>
+<h2 id="optional-values" class="section-header"><a href="#optional-values">Optional values</a></h2>
+<p><code>null</code> value is called &quot;the billion dollar mistake&quot;. So, Rust has no <code>null</code> but a missing value can still be expressed with <code>std::option::Option</code> enum.</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">fn</span> <span class="ident">make_optional</span>(<span class="ident">with_value</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+    <span class="kw">if</span> <span class="ident">with_value</span> {
+        <span class="prelude-val">Some</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;value&quot;</span>))
+    } <span class="kw">else</span> {
+        <span class="prelude-val">None</span>
+    }
+}
+
+<span class="prelude-val">Some</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;foo&quot;</span>)).<span class="ident">unwrap_or</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;bar&quot;</span>)); <span class="comment">// &quot;bar&quot;</span>
+<span class="prelude-val">None</span>.<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;default&quot;</span>)); <span class="comment">// &quot;default&quot;</span>
+
+<span class="comment">// Return error if value is missing</span>
+<span class="kw">fn</span> <span class="ident">may_fail</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Foo</span>, <span class="ident">FooError</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="ident">bar</span> <span class="op">=</span> <span class="ident">search_bar</span>().<span class="ident">ok_or</span>(<span class="ident">FooError</span>::<span class="ident">NotFound</span>)<span class="question-mark">?</span>;
+    <span class="prelude-val">Ok</span>(<span class="ident">Foo</span> { <span class="ident">bar</span> })
+}<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Aenum%20FooError%20%7B%20NotFound%20%7D%0Astruct%20Bar%3B%0Astruct%20Foo%20%7B%20bar%3A%20Bar%20%7D%0Afn%20search_bar()%20-%3E%20Option%3CBar%3E%20%7B%20Some(Bar)%20%7D%0Afn%20make_optional(with_value%3A%20bool)%20-%3E%20Option%3CString%3E%20%7B%0A%20%20%20%20if%20with_value%20%7B%0A%20%20%20%20%20%20%20%20Some(String%3A%3Afrom(%22value%22))%0A%20%20%20%20%7D%20else%20%7B%0A%20%20%20%20%20%20%20%20None%0A%20%20%20%20%7D%0A%7D%0A%0ASome(String%3A%3Afrom(%22foo%22)).unwrap_or(String%3A%3Afrom(%22bar%22))%3B%20%2F%2F%20%22bar%22%0ANone.unwrap_or_else(%7C%7C%20String%3A%3Afrom(%22default%22))%3B%20%2F%2F%20%22default%22%0A%0A%2F%2F%20Return%20error%20if%20value%20is%20missing%0Afn%20may_fail()%20-%3E%20Result%3CFoo%2C%20FooError%3E%20%7B%0A%20%20%20%20let%20bar%20%3D%20search_bar().ok_or(FooError%3A%3ANotFound)%3F%3B%0A%20%20%20%20Ok(Foo%20%7B%20bar%20%7D)%0A%7D%0A%7D">Run</a></pre>
+<h2 id="panic" class="section-header"><a href="#panic">Panic</a></h2>
+<p>Rust has capability similar to <code>Exception</code> in other languages through <code>panic!</code> macro. It currently stops running thread and if it's <code>main</code>, program is stopped.</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">fn</span> <span class="ident">stop_thread</span>(<span class="ident">code</span>: <span class="ident">u64</span>) {
+    <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Abort thread (error code: {})&quot;</span>, <span class="ident">code</span>);
+}
+
+<span class="kw">let</span> <span class="ident">optional</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+<span class="ident">optional</span>.<span class="ident">expect</span>(<span class="string">&quot;No value&quot;</span>);<a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Afn%20stop_thread(code%3A%20u64)%20%7B%0A%20%20%20%20panic!(%22Abort%20thread%20(error%20code%3A%20%7B%7D)%22%2C%20code)%3B%0A%7D%0A%0Alet%20optional%3A%20Option%3Ci32%3E%20%3D%20None%3B%0Aoptional.expect(%22No%20value%22)%3B%0A%7D">Run</a></pre>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">must_success</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">i32</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">Err</span>(<span class="string">&quot;but it fails !&quot;</span>);
+<span class="ident">must_success</span>.<span class="ident">expect</span>(<span class="string">&quot;it should have worked&quot;</span>);
+<span class="comment">// panic: &quot;it should have worked: but it fails !&quot;</span><a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Alet%20must_success%3A%20Result%3Ci32%2C%20%26'static%20str%3E%20%3D%20Err(%22but%20it%20fails%20!%22)%3B%0Amust_success.expect(%22it%20should%20have%20worked%22)%3B%0A%2F%2F%20panic%3A%20%22it%20should%20have%20worked%3A%20but%20it%20fails%20!%22%0A%7D">Run</a></pre>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">must_fail</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">Ok</span>(<span class="string">&quot;but it was a surprising success !&quot;</span>);
+<span class="ident">must_fail</span>.<span class="ident">expect_err</span>(<span class="string">&quot;it must not work&quot;</span>);
+<span class="comment">// panic: &quot;it must not work: but it was a surprising success !&quot;</span><a class="test-arrow" target="_blank" href="https://play.rust-lang.org/?code=%23!%5Ballow(unused)%5D%0Afn%20main()%20%7B%0Alet%20must_fail%3A%20Result%3C%26'static%20str%2C%20%26'static%20str%3E%20%3D%20Ok(%22but%20it%20was%20a%20surprising%20success%20!%22)%3B%0Amust_fail.expect_err(%22it%20must%20not%20work%22)%3B%0A%2F%2F%20panic%3A%20%22it%20must%20not%20work%3A%20but%20it%20was%20a%20surprising%20success%20!%22%0A%7D">Run</a></pre>
+<p><code>panic</code> is generally advised when invariants are broken, state is invalid, caller is not expected to programmatically handle error (caller bug), ...</p>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt><kbd>?</kbd></dt>
+                    <dd>Show this help dialog</dd>
+                    <dt><kbd>S</kbd></dt>
+                    <dd>Focus the search field</dd>
+                    <dt><kbd>↑</kbd></dt>
+                    <dd>Move up in search results</dd>
+                    <dt><kbd>↓</kbd></dt>
+                    <dd>Move down in search results</dd>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
+                    <dd>Go to active search result</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "09_error_management";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

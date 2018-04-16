@@ -4,10 +4,6 @@
 
 **Follow** the __README.md__ instructions
 
-Genereate explanations/instructions:
+Genereate explanations/instructions: `cargo doc --all && cargo doc --open`
 
-`cargo doc --all`
-
-Open them in your browser:
-
-`cargo doc --open`
+Also available at [https://logan-et-alessio.github.io/rust-workshop/rustdoc](https://logan-et-alessio.github.io/rust-workshop/rustdoc)
