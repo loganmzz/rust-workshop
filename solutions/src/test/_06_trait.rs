@@ -25,7 +25,7 @@ impl Ident for Entity {
 
 impl Value for Entity {
     type Output = String;
-    fn value(&self) -> String {
+    fn value(&self) -> Self::Output {
         self.name.clone()
     }
 }
@@ -58,7 +58,7 @@ impl Ident for Singleton {
 
 impl Value for Singleton {
     type Output = ();
-    fn value(&self) -> () {
+    fn value(&self) -> Self::Output {
         ()
     }
 }
