@@ -76,13 +76,13 @@ html_playground_url = "https://play.rust-lang.org/",
 //!
 //! ```rust
 //! trait WithAssociatedType {
-//!     type Value;
-//!     fn value(&self) -> &Self::Value;
+//!     type ValueType;
+//!     fn value(&self) -> &Self::ValueType;
 //! }
 //!
 //! struct NumberContainer { value: i64, }
 //! impl WithAssociatedType for NumberContainer {
-//!     type Value = i64;
+//!     type ValueType = i64;
 //!     fn value(&self) -> &i64 {
 //!         &self.value
 //!     }
@@ -90,8 +90,8 @@ html_playground_url = "https://play.rust-lang.org/",
 //!
 //! struct StringContainer { data: String, }
 //! impl WithAssociatedType for StringContainer {
-//!     type Value = String;
-//!     fn value(&self) -> &Self::Value {
+//!     type ValueType = String;
+//!     fn value(&self) -> &Self::ValueType {
 //!         &self.data
 //!     }
 //! }
